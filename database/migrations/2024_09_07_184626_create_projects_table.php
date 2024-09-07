@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('portfolio_id')->constrained('portfolios')->references('user_id')->onDelete('cascade');
             $table->string('title');
             $table->text('description');
-            $table->string('project_category');
+            $table->string('category');
             $table->string('media_files');
             $table->timestamps();
         });

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('applications', function (Blueprint $table) {
             $table->id();
-            $table->dateTime('application_date');
+            // $table->dateTime('application_date');
             $table->string('status');
             $table->text('cover_letter');
             $table->foreignId('user_id')->constrained('users')->constrained()->onDelete('cascade');
