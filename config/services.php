@@ -34,5 +34,12 @@ return [
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
     ],
+        'google' => [
+        'web' => [
+            'client_id' => env('GOOGLE_CLIENT_ID_WEB'),
+            'client_secret' => env('GOOGLE_CLIENT_SECRET_WEB'),
+            'redirect' => env('GOOGLE_REDIRECT_URI_WEB'),
+        ],
+    ],
 
 ];

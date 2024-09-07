@@ -29,15 +29,15 @@ class AuthenticatedSessionController extends Controller
             // Create a new token
             $token = $user->createToken('auth_token')->plainTextToken;
             $roles = $user->roles->pluck('name');
+            $permissions = $user->getAllPermissions()->pluck('name');
 
-            Cart::moveCartItemsIntoDb();
             return response()->json([
                 'user' => [
                     'id' => $user->id,
-                    'first_name' => $user->first_name,
-                    'last_name' => $user->last_name,
+                    'name' => $user->name,
                     'email' => $user->email,
                     'roles' => $roles,
+                    'permissions'=>$permissions,
                 ],
                 'access_token' => $token,
                 'token_type' => 'Bearer',

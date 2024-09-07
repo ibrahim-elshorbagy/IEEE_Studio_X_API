@@ -26,8 +26,7 @@ class RegisteredUserController extends Controller
         try {
 
         $validateUser = Validator::make($request->all(), [
-            'first_name' => ['required', 'string'],
-            'last_name' => ['required', 'string'],
+            'name' => ['required', 'string'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
@@ -42,33 +41,31 @@ class RegisteredUserController extends Controller
         }
 
         $user = User::create([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
+            'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->string('password')),
         ]);
         $user->assignRole('user');
         event(new Registered($user));
         $userID = $user->id;
-        Customer::create([
-            'user_id' => $userID
 
-        ]);
         Auth::login($user);
         $token = $user->createToken('auth_token')->plainTextToken;
         $roles = $user->roles->pluck('name');
+        $permissions = $user->getAllPermissions()->pluck('name');
 
-        Cart::moveCartItemsIntoDb();
+
         return response()->json([
                 'status' => true,
                 'message' => 'User registered successfully',
                 'token' => $token,
                 'user' => [
                     'id' => $user->id,
-                    'first_name' => $user->first_name,
-                    'last_name' => $user->last_name,
+                    'name' => $user->name,
                     'email' => $user->email,
                     'roles' => $roles,
+                    'permissions'=>$permissions,
+
                 ]
             ], 201);
     }

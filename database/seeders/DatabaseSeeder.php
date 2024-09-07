@@ -22,14 +22,12 @@ class DatabaseSeeder extends Seeder
         Role::create(['name' => 'user']);
 
         $user =User::factory()->create([
-            'first_name' => 'ibrahim',
-            'last_name' => 'admin',
+            'name' => 'ibrahim',
             'email' => 'a@a.a',
             'password' => Hash::make('a'),
         ]);
         $user->assignRole('admin');
         $user->assignRole('user');
 
-        Product::factory(30)->create();
     }
 }

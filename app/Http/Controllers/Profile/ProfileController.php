@@ -13,8 +13,7 @@ class ProfileController extends Controller
     public function UpdateName(Request $request)
     {
         $validateUser = Validator::make($request->all(), [
-            'first_name' => ['required', 'string'],
-            'last_name' => ['required', 'string'],
+            'name' => ['required', 'string'],
         ]);
 
 
@@ -27,8 +26,7 @@ class ProfileController extends Controller
         }
 
         $user = auth()->user()->update([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
+            'name' => $request->name,
         ]);
 
         return response()->json([
