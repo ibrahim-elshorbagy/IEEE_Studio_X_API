@@ -10,6 +10,16 @@ use App\Http\Controllers\Auth\NewPasswordController;
 
 use App\Http\Controllers\Auth\SignUpWith\GoogleContoller;
 use App\Http\Controllers\Profile\ProfileController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PortfolioController;
+use App\Http\Controllers\JobController;
+use App\Http\Controllers\RoadmapController;
+use App\Http\Controllers\CourseController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\OrderDetailController;
+use App\Http\Controllers\OrderItemController;
 
 
 //------------------------------ Login system -----------------------------------------//
@@ -46,8 +56,39 @@ Route::middleware(['auth:sanctum','role:user'])->group(function () {
     });
 });
 
+//------------------------------ Admin -----------------------------------------//
+
+Route::middleware(['auth:sanctum','role:admin'])->group(function () {
+
+    Route::prefix('admin')->group(function () {
+
+    Route::middleware(['role:admin'])->group(function () {
+        Route::resource('categories', CategoryController::class);
+        Route::resource('portfolios', PortfolioController::class);
+        Route::resource('jobs', JobController::class);
+        Route::resource('roadmaps', RoadmapController::class);
+        Route::resource('courses', CourseController::class);
+        Route::resource('products', ProductController::class);
+
+    });
+
+    });
+});
+Route::middleware(['auth:sanctum','role:admin'])->group(function () {
 
 
+    Route::prefix('user')->group(function () {
+
+    Route::middleware(['role:admin'])->group(function () {
+
+        Route::resource('applications', ApplicationController::class);
+        Route::resource('projects', ProjectController::class);
+        Route::resource('order-details', OrderDetailController::class);
+        Route::resource('order-items', OrderItemController::class);
+    });
+
+    });
+});
 
 // Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 //     return $request->user();
